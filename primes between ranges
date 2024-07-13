@@ -1,0 +1,38 @@
+︠3b558a88-d4e2-418c-a0c4-75026ff8c2b5︠
+def is_prime(num):
+
+    if num <= 1:
+        return False
+    if num == 2:
+        return True
+    if num % 2 == 0:
+        return False
+    max_divisor = int(num**0.5) + 1
+    for divisor in range(3, max_divisor, 2):
+        if num % divisor == 0:
+            return False
+    return True
+
+def prime_numbers_in_range(start, end):
+
+    primes = []
+    for num in range(start, end + 1):
+        if is_prime(num):
+            primes.append(num)
+    return primes
+
+
+start = int(input("enter start limit:"))
+end = int(input("enter end limit:"))
+primes = prime_numbers_in_range(start, end)
+print(f"Prime numbers between {start} and {end}: {primes}")
+︡b2cc61ec-6d2b-4513-875d-966c7af81b74︡{"done":true}
+
+
+
+
+
+
+
+
+
