@@ -1,0 +1,41 @@
+import math
+from sympy import isprime, primefactors
+import matplotlib.pyplot as plt
+
+def w(n):
+    return len(primefactors(n))
+
+def F(x, m_limit):
+    count = 0
+    values = []
+    for m in range(2, m_limit + 1):
+        if isprime(m):  # Check if m is a prime number
+            loglogm = math.log(math.log(m))
+            if loglogm > 0:
+                normalized_value = (w(m) - loglogm) / math.sqrt(loglogm)
+                if normalized_value <= x:
+                    count += 1
+                    values.append((m, normalized_value))
+    return count, values
+
+x = 0.5
+m_limit = 759
+result_count, result_values = F(x, m_limit)
+
+print(f"Cardinality of F({x}) for prime numbers m from 2 to {m_limit} is: {result_count}")
+print("Values of prime numbers m and their normalized values :")
+for m, value in result_values:
+    print(f"m = {m}, normalized value = {value}")
+
+m_values = [m for m, value in result_values]
+normalized_values = [value for m, value in result_values]
+
+plt.figure(figsize=(10, 6))
+plt.scatter(m_values, normalized_values, color='blue', label='Normalized Values')
+plt.axhline(y=x, color='red', linestyle='--', label=f'x = {x}')
+plt.xlabel('m')
+plt.ylabel('Normalized Value')
+plt.title(f'Normalized Values of prime numbers m (x = {x})')
+plt.legend()
+plt.grid(True)
+plt.show()
