@@ -1,0 +1,44 @@
+import sympy
+import matplotlib.pyplot as plt
+
+def find_numbers(limit):
+    incl_num = []
+    excl_num = []
+
+    for n in range(1, limit + 1):
+        prime_factors = sympy.factorint(n)
+
+        if len(prime_factors) == 3 or sum(prime_factors.values()) == 3:
+            incl_num.append(n)
+        else:
+            excl_num.append(n)
+
+    return incl_num, excl_num
+
+limit = 10000
+
+included_numbers, excluded_numbers = find_numbers(limit)
+print("Included numbers:", included_numbers)
+print(f"Count of included numbers: {len(included_numbers)}")
+
+print("Excluded numbers:", excluded_numbers)
+print(f"Count of excluded numbers: {len(excluded_numbers)}")
+
+plt.figure(figsize=(14, 7))
+
+plt.subplot(1, 2, 1)
+plt.scatter(range(len(included_numbers)), included_numbers, color='green')
+plt.title('Graph of Included Numbers')
+plt.xlabel('Index')
+plt.ylabel('Included Numbers')
+plt.grid(True)
+
+plt.subplot(1, 2, 2)
+plt.scatter(range(len(excluded_numbers)), excluded_numbers, color='red')
+plt.title('Graph of Excluded Numbers')
+plt.xlabel('Index')
+plt.ylabel('Excluded Numbers')
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
