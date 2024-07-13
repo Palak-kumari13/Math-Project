@@ -1,0 +1,18 @@
+import sympy
+
+def find_numbers_with_three_prime_factors(limit):
+    numbers_with_three_prime_factors = []
+
+    for n in range(1, limit + 1):
+        prime_factors = sympy.primefactors(n)
+        if len(prime_factors) == 3:
+            numbers_with_three_prime_factors.append(n)
+
+    return numbers_with_three_prime_factors
+
+limit = 10080
+
+numbers = find_numbers_with_three_prime_factors(limit)
+
+print(f"Numbers with exactly 3 prime factors in the range 1 to {limit} are: {numbers}")
+print(f" count of numbers are : {len(numbers)}")
