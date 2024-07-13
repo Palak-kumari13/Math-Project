@@ -1,0 +1,36 @@
+import math
+from sympy import primefactors
+import matplotlib.pyplot as plt
+
+def w(n):
+    return len(primefactors(n))
+
+def F(x, m_limit):
+    count = 0
+    values = []
+    for m in range(2, m_limit + 1):
+        loglogm = math.log(math.log(m))
+        if loglogm > 0:
+            normalized_value = (w(m) - loglogm) / math.sqrt(loglogm)
+            if normalized_value <= x:
+                count += 1
+                values.append((m, normalized_value))
+    return count, values
+
+x = 1
+m_limit = 1065
+result_count, result_values = F(x, m_limit)
+
+print(f"Cardinality of F({x}) for m from 2 to {m_limit} is: {result_count}")
+print("Values of m and their normalized values :")
+for m, value in result_values:
+    print(f"m = {m}, normalized value = {value}")
+
+normalized_values = [value for m, value in result_values]
+
+
+plt.hist(normalized_values, bins=10, edgecolor='black')
+plt.xlabel('Normalized Value')
+plt.ylabel('Frequency')
+plt.title(f'Histogram of Normalized Values satisfying F({x}) for m from 2 to {m_limit}')
+plt.grid()
