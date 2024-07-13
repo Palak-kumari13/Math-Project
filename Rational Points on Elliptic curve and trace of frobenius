@@ -1,0 +1,43 @@
+def is_prime(n):
+
+  if n <= 1:
+      return False
+  if n <= 3:
+      return True
+  if n % 2 == 0 or n % 3 == 0:
+      return False
+  i = 5
+  while i * i <= n:
+      if n % i == 0 or n % (i + 2) == 0:
+          return False
+      i += 6
+  return True
+
+def count_points(a, b, p):
+
+  if not is_prime(p):
+      raise ValueError(f"The number {p} is not a prime number. Please provide a prime number for the field.")
+
+  count = 1
+
+  for x in range(p):
+      rhs = (x**3 + a*x + b) % p
+      if pow(rhs, (p - 1) // 2, p) == 1:
+          count += 2  
+      elif rhs == 0:
+          count += 1 
+  return count
+
+
+a, b, p = 101, 103, 1021
+try:
+  num = count_points(a, b, p)
+  print(f"Number of points on the elliptic curve: {num}")
+
+  # Calculate the trace of Frobenius
+  q = p
+  t_q = q + 1 - num
+  print(f"Trace of Frobenius: {t_q}")
+
+except ValueError as e:
+  print(e)
