@@ -1,0 +1,19 @@
+def prime_factors(num):
+
+    factors = []
+
+    while num % 2 == 0:
+        factors.append(2)
+        num //= 2
+
+    divisor = 3
+    while num != 1 and divisor <= num:
+        while num % divisor == 0:
+            factors.append(divisor)
+            num //= divisor
+        divisor += 2
+    return factors
+
+number = int(input("enter number:"))
+factors = prime_factors(number)
+print(f"Prime factors of {number}: {factors}")
