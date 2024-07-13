@@ -1,0 +1,19 @@
+import sympy 
+
+def find_numbers(limit): 
+    num = [] 
+
+    for n in range(1, limit + 1): 
+        prime_factors = sympy.factorint(n) 
+
+        if len(prime_factors) == 3: 
+            num.append(n) 
+        elif sum(prime_factors.values()) == 3: 
+            num.append(n) 
+
+    return num  
+limit = 1456
+
+numbers = find_numbers(limit) 
+print(numbers) 
+print(f"Count of the numbers here is: {len(numbers)}")
