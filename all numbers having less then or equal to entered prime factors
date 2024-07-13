@@ -1,0 +1,20 @@
+import sympy
+
+def find_numbers_with_prime_factors(limit, num_factors):
+    numbers_with_prime_factors = []
+
+    for n in range(1, limit + 1):
+        prime_factors = sympy.primefactors(n)
+        if len(prime_factors) <= num_factors:
+            numbers_with_prime_factors.append(n)
+
+    return numbers_with_prime_factors
+
+limit = int(input("Enter limit: "))
+num_factors = int(input("Enter max of prime factors: "))
+
+numbers = find_numbers_with_prime_factors(limit, num_factors)
+
+print(f"Num with at most {num_factors} prime factors in range 1 to {limit} are:")
+print(numbers)
+print(f"count of num is: {len(numbers)}")
