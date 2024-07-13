@@ -1,0 +1,27 @@
+import math
+from sympy import primefactors
+
+def w(n):
+    return len(primefactors(n))
+
+def F(x, m_limit):
+    count = 0
+    values = []
+    for m in range(2, m_limit + 1):
+        loglogm = math.log(math.log(m))
+        if loglogm > 0:
+            normal_value = (w(m) - loglogm) / math.sqrt(loglogm)
+            if normal_value <= x:
+                count += 1
+                values.append((m, normal_value))
+    return count, values
+
+
+x = 1
+m_limit = 88
+result_count, result_values = F(x, m_limit)
+
+print(f"Card. of F({x}) for m from 2 to {m_limit} is: {result_count}")
+print("Values of m and normal values:")
+for m, value in result_values:
+    print(f"m = {m}, normal value = {value}")
