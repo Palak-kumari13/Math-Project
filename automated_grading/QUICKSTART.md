@@ -19,7 +19,7 @@ pip install -r requirements.txt
 python quick_demo.py
 ```
 
-Expected output: Correlation ~0.58 (using fast similarity only)
+Expected output: Correlation varies (quick demo uses faster similarity only)
 
 ## Full Demo (2-3 minutes)
 
@@ -28,7 +28,7 @@ Expected output: Correlation ~0.58 (using fast similarity only)
 python grading_system.py
 ```
 
-Expected output: Correlation ~0.84 (using all similarity measures)
+Expected output: Correlation with human graders (typically 0.75-0.85)
 
 ## Your First Grading
 
@@ -81,14 +81,17 @@ results.to_csv('grading_results.csv', index=False)
 ## Common Use Cases
 
 ### 1. Grade a single answer
-```bash
-python -c "
+
+Create a file `grade_single.py`:
+```python
 from grading_system import AutomatedGradingSystem
-g = AutomatedGradingSystem()
-r = g.grade_answer('Student answer', 'Model answer')
-print(f\"Score: {r['final_score']:.3f}\")
-"
+
+grader = AutomatedGradingSystem()
+result = grader.grade_answer('Student answer', 'Model answer')
+print(f"Score: {result['final_score']:.3f}")
 ```
+
+Then run: `python grade_single.py`
 
 ### 2. Process Hewlett dataset
 ```bash
@@ -154,7 +157,15 @@ grader = AutomatedGradingSystem(use_lsa=False)
 ## Troubleshooting
 
 ### NLTK Data Not Found
-Run: `python -c "import nltk; nltk.download('all')"`
+The system will automatically download required data on first run. If you encounter issues, manually download:
+```python
+import nltk
+nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet_ic')
+nltk.download('averaged_perceptron_tagger')
+```
 
 ### Slow Performance
 - Use `quick_demo.py` for faster results
