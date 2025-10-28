@@ -38,3 +38,8 @@ Thumbs.db
 
 # Project specific
 automated_grading/grading_results.csv
+
+# Car price prediction artifacts
+model_joblib.pkl
+encoders_joblib.pkl
+pre-owned cars.csv

@@ -11,7 +11,7 @@ Various Python scripts for:
 - Elliptic curve calculations
 - Number theory visualizations
 
-### 2. Automated Grading System ⭐ NEW
+### 2. Automated Grading System ⭐
 An unsupervised text similarity-based system for automatically grading short-answer questions.
 
 **Location**: `automated_grading/`
@@ -31,6 +31,46 @@ python examples.py
 ```
 
 **Documentation**: See [automated_grading/README.md](automated_grading/README.md) for full documentation.
+
+### 3. Pre-Owned Car Price Prediction 🚗 NEW
+A machine learning system for predicting used car prices using LightGBM with advanced feature engineering and hyperparameter optimization.
+
+**Features**:
+- **K-fold Target Encoding**: Leakage-safe encoding for high-cardinality features (brand, model)
+- **Optuna Hyperparameter Tuning**: Automated optimization of LightGBM parameters
+- **Feature Engineering**: Car age, km/year, transmission type, fuel type analysis
+- **Interactive CLI**: User-friendly price prediction with "what-if" scenarios
+- **High Accuracy**: Achieves R² > 0.99 on test data
+
+**Quick Start**:
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Generate sample dataset (or use your own)
+python generate_sample_dataset.py
+
+# Train the model
+python improved_price_modeling.py
+
+# Make predictions interactively
+python predict_car_price.py
+```
+
+**Documentation**: See [CAR_PRICE_README.md](CAR_PRICE_README.md) for full documentation.
+
+**Example Output**:
+```
+🚗 CAR PRICE PREDICTOR 🚗
+Brand: Maruti
+Model: Swift
+Year: 2015
+...
+💰 ESTIMATED PRICES:
+   Manual Transmission:    ₹192,659.87
+   Automatic Transmission: ₹201,617.45
+💡 Choosing Automatic will cost you approximately ₹8,957.58 more
+```
 
 ## Background
 
