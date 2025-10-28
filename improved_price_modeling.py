@@ -165,8 +165,11 @@ def map_booleans(df: pd.DataFrame, cols=("has_insurance", "spare_key")) -> pd.Da
     for c in cols:
         if c in df.columns:
             s = df[c].astype(str).str.strip().str.lower()
-            s = s.replace({"yes": "1", "no": "0", "true": "1", "false": "0", "nan": np.nan})
-            df[c + "_flag"] = pd.to_numeric(s, errors="coerce")
+            # Map to numeric values directly
+            mapping = {"yes": 1, "no": 0, "true": 1, "false": 0}
+            df[c + "_flag"] = s.map(mapping)
+            # Convert to float to allow NaN for unmapped values
+            df[c + "_flag"] = pd.to_numeric(df[c + "_flag"], errors="coerce")
         else:
             df[c + "_flag"] = np.nan
     return df
@@ -302,7 +305,8 @@ def create_feature_matrix(df: pd.DataFrame, encoders: Dict = None) -> Tuple[pd.D
         "model_te",
         "state_code_freq",
     ]
-    # include fuel dummies (but not fuel_type or fuel_simple themselves)
+    # include fuel dummies (e.g., fuel_diesel, fuel_electric, fuel_petrol)
+    # but exclude the original fuel_type and fuel_simple columns
     fuel_dummy_cols = [c for c in df.columns if c.startswith("fuel_") and c not in ["fuel_type", "fuel_simple"]]
     feature_cols += fuel_dummy_cols
 
@@ -427,6 +431,7 @@ def main():
     print("Evaluating on held-out test set...")
     preds = final_model.predict(X_test)
     y_test = test_df[TARGET].astype(float)
+    # Note: using np.sqrt instead of squared=False for wider sklearn compatibility
     rmse = np.sqrt(mean_squared_error(y_test, preds))
     mae = mean_absolute_error(y_test, preds)
     r2 = r2_score(y_test, preds)
