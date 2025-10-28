@@ -164,7 +164,8 @@ def map_ownership(df: pd.DataFrame) -> pd.DataFrame:
 def map_booleans(df: pd.DataFrame, cols=("has_insurance", "spare_key")) -> pd.DataFrame:
     for c in cols:
         if c in df.columns:
-            s = df[c].astype(str).str.strip().str.lower().replace({"yes": 1, "no": 0, "true": 1, "false": 0, "nan": np.nan})
+            s = df[c].astype(str).str.strip().str.lower()
+            s = s.replace({"yes": "1", "no": "0", "true": "1", "false": "0", "nan": np.nan})
             df[c + "_flag"] = pd.to_numeric(s, errors="coerce")
         else:
             df[c + "_flag"] = np.nan
@@ -301,8 +302,9 @@ def create_feature_matrix(df: pd.DataFrame, encoders: Dict = None) -> Tuple[pd.D
         "model_te",
         "state_code_freq",
     ]
-    # include fuel dummies
-    feature_cols += [c for c in df.columns if c.startswith("fuel_")]
+    # include fuel dummies (but not fuel_type or fuel_simple themselves)
+    fuel_dummy_cols = [c for c in df.columns if c.startswith("fuel_") and c not in ["fuel_type", "fuel_simple"]]
+    feature_cols += fuel_dummy_cols
 
     # Keep only those existing
     feature_cols = [c for c in feature_cols if c in df.columns]
@@ -310,6 +312,10 @@ def create_feature_matrix(df: pd.DataFrame, encoders: Dict = None) -> Tuple[pd.D
     X = df[feature_cols].copy()
 
     # Impute numeric missing values with medians (compute medians and return in encoders)
+    # Convert all columns to numeric first (should already be, but just to be safe)
+    for col in X.columns:
+        X[col] = pd.to_numeric(X[col], errors='coerce')
+    
     medians = X.median()
     X = X.fillna(medians)
 
@@ -421,7 +427,7 @@ def main():
     print("Evaluating on held-out test set...")
     preds = final_model.predict(X_test)
     y_test = test_df[TARGET].astype(float)
-    rmse = mean_squared_error(y_test, preds, squared=False)
+    rmse = np.sqrt(mean_squared_error(y_test, preds))
     mae = mean_absolute_error(y_test, preds)
     r2 = r2_score(y_test, preds)
     print(f"Test RMSE = {rmse:.2f}, MAE = {mae:.2f}, R2 = {r2:.4f}")
