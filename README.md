@@ -70,6 +70,24 @@ For the automated grading system:
 
 See `automated_grading/requirements.txt` for specific versions.
 
+## Contributing
+
+We welcome contributions! Whether you want to add notes, improve documentation, or contribute code:
+
+- **Adding Notes**: See [NOTES.md](NOTES.md) to add your observations and notes about the project
+- **Contributing Code/Docs**: See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on how to contribute
+
+### Quick Guide to Commit Notes
+
+1. Fork this repository
+2. Create a new branch: `git checkout -b add-my-notes`
+3. Add your notes to `NOTES.md` or create a new documentation file
+4. Commit: `git commit -m "Add notes about [topic]"`
+5. Push: `git push origin add-my-notes`
+6. Open a Pull Request
+
+For detailed instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 This project is open source and available for educational purposes.
